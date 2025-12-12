@@ -27,6 +27,8 @@ More specific information about individual parts of Nixpkgs can be found here:
 ## How to create pull requests
 [pr-create]: #how-to-create-pull-requests
 
+Hello.
+
 This section describes how changes can be proposed with a pull request (PR).
 
 > [!Note]
