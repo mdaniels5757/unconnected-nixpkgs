@@ -124,3 +124,32 @@ jobs:
             echo "If you're having trouble, ping @NixOS/nixpkgs-vet"
             exit "$exitCode"
           fi
+
+  commits:
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 2
+    steps:
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        with:
+          persist-credentials: false
+          sparse-checkout: .github/actions
+      - name: Checkout merge and target commits
+        uses: ./.github/actions/checkout
+        with:
+          merged-as-untrusted-at: ${{ inputs.mergedSha }}
+          target-as-trusted-at: ${{ inputs.targetSha }}
+      - run: npm install isomorphic-git
+      - name: Check commit messages
+        uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8.0.0
+        with:
+          script: |
+            const { checkCommitMessages } = require('./trusted/ci/github-script/lint-commits.js')
+
+            checkCommitMessages({
+              mergedSha: process.env.mergedSha,
+              targetSha: process.env.targetSha,
+              path: `${process.env.PWD}/nixpkgs/untrusted`
+            })
+        env:
+          mergedSha: ${{ inputs.mergedSha }}
+          targetSha: ${{ inputs.targetSha }}
