@@ -133,6 +133,8 @@ This section describes how changes can be proposed with a pull request (PR).
 
 8. If your PR is merged and [acceptable for releases][release-acceptable], you may [backport][pr-backport] it.
 
+Hello.
+
 ### Pull request template
 [pr-template]: #pull-request-template
 
