@@ -94,4 +94,18 @@ program
     await run(getTeams, owner, repo, undefined, { ...options, outFile })
   })
 
+program
+  .command('lint-commits')
+  .description('Lint for common errors in commit messages')
+  .argument('<commit_1>', 'The first commit to check.')
+  .argument('<commit_2>', 'The last commit to check.')
+  .action(async (commit_1, commit_2) => {
+    const checkCommitMessages = (await import('./lint-commits.js')).default
+    await checkCommitMessages({
+      targetSha: commit_1,
+      mergedSha: commit_2,
+      path: "../.."
+    })
+  })
+
 await program.parse()
