@@ -27,6 +27,7 @@ function printError({ commitId, reason, postReason }) {
  */
 async function checkCommitMessages({ mergedSha, targetSha, path }) {
   console.log('Going to run git log in path', path) // FIXME: remove
+  console.log(`mergedSha is ${mergedSha} and targetSha is ${targetSha}`) // FIXME: remove
 
   const gitLogProcess = spawnSync(
     'git',
