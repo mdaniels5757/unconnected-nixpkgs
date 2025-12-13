@@ -138,16 +138,10 @@ jobs:
         with:
           merged-as-untrusted-at: ${{ inputs.mergedSha }}
           target-as-trusted-at: ${{ inputs.targetSha }}
-      - name: "FIXME: remove"
+      - name: Save working directory
+        id: save-workdir
         run: |
-          echo "PWD = $PWD"
-          ls -lA
-          echo "nixpkgs"
-          ls -la nixpkgs
-          echo "nixpkgs/untrusted"
-          ls -la nixpkgs/untrusted
-          echo "nixpkgs/trusted"
-          ls -la nixpkgs/trusted
+          echo "WORKDIR=$PWD" >> "$GITHUB_OUTPUT"
       - name: Install dependencies
         run: npm install isomorphic-git @actions/core
       - name: Check commit messages
@@ -156,11 +150,14 @@ jobs:
           script: |
             const checkCommitMessages = require('./nixpkgs/trusted/ci/github-script/lint-commits.js')
 
+            console.log(`PWD = ${process.env.PWD}; WORKDIR = ${process.env.WORKDIR}`)
+
             checkCommitMessages({
               mergedSha: process.env.mergedSha,
               targetSha: process.env.targetSha,
-              path: `${process.env.PWD}/nixpkgs/untrusted`
+              path: `${process.env.WORKDIR}/nixpkgs/untrusted`
             })
         env:
           mergedSha: ${{ inputs.mergedSha }}
           targetSha: ${{ inputs.targetSha }}
+          WORKDIR: ${{ steps.save-workdir.outputs.WORKDIR }}
