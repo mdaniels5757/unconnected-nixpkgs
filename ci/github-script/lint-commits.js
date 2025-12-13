@@ -26,7 +26,7 @@ function printError({ commitId, reason, postReason }) {
  *   }} props
  */
 async function checkCommitMessages({ mergedSha, targetSha, path }) {
-  console.log('Going to run git log in path', path)
+  console.log('Going to run git log in path', path) // FIXME: remove
 
   const gitLogProcess = spawnSync(
     'git',
@@ -51,6 +51,8 @@ async function checkCommitMessages({ mergedSha, targetSha, path }) {
   const commitIds = gitLogProcess.stdout
     .split('\n')
     .map((s) => s.replaceAll('\n', ''))
+
+  console.log('Commit IDs:', JSON.stringify(commitIds)) // FIXME: remove
 
   let failed = false
   for (const commitId of commitIds) {
