@@ -48,11 +48,19 @@ async function checkCommitMessages({ mergedSha, targetSha, path }) {
     return
   }
 
+  console.log(
+    'Ran "git log ${targetSha}..${mergedSha}"; stdout was ',
+    gitLogProcess.stdout,
+  ) // FIXME: remove
+
   const commitIds = gitLogProcess.stdout
     .split('\n')
     .map((s) => s.replaceAll('\n', ''))
 
-  console.log('Commit IDs:', JSON.stringify(commitIds)) // FIXME: remove
+  console.log(
+    'Ran "git log ${targetSha}..${mergedSha}"; got commit IDs:',
+    JSON.stringify(commitIds),
+  ) // FIXME: remove
 
   let failed = false
   for (const commitId of commitIds) {
