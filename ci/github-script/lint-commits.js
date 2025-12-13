@@ -26,6 +26,8 @@ function printError({ commitId, reason, postReason }) {
  *   }} props
  */
 async function checkCommitMessages({ mergedSha, targetSha, path }) {
+  console.log('Going to run git log in path', path)
+
   const gitLogProcess = spawnSync(
     'git',
     ['-C', path, 'log', '--pretty=format:%H', `${targetSha}..${mergedSha}`],

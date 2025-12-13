@@ -150,8 +150,6 @@ jobs:
           script: |
             const checkCommitMessages = require('./nixpkgs/trusted/ci/github-script/lint-commits.js')
 
-            console.log(`PWD = ${process.env.PWD}; WORKDIR = ${process.env.WORKDIR}`)
-
             checkCommitMessages({
               mergedSha: process.env.mergedSha,
               targetSha: process.env.targetSha,
