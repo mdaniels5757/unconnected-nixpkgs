@@ -144,6 +144,16 @@ jobs:
           echo "WORKDIR=$PWD" >> "$GITHUB_OUTPUT"
       - name: Install dependencies
         run: npm install isomorphic-git @actions/core
+      - name: "FIXME: remove"
+        run: |
+          echo "PWD = $PWD"
+          ls -lA
+          echo "nixpkgs"
+          ls -la nixpkgs
+          echo "nixpkgs/untrusted"
+          ls -la nixpkgs/untrusted
+          echo "nixpkgs/trusted"
+          ls -la nixpkgs/trusted
       - name: Check commit messages
         uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8.0.0
         with:
