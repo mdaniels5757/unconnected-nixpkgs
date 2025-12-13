@@ -138,6 +138,16 @@ jobs:
         with:
           merged-as-untrusted-at: ${{ inputs.mergedSha }}
           target-as-trusted-at: ${{ inputs.targetSha }}
+      - name: "FIXME: remove"
+        run: |
+          echo "PWD = $PWD"
+          ls -lA
+          echo "nixpkgs"
+          ls -la nixpkgs
+          echo "nixpkgs/untrusted"
+          ls -la nixpkgs/untrusted
+          echo "nixpkgs/trusted"
+          ls -la nixpkgs/trusted
       - name: Install dependencies
         run: npm install isomorphic-git @actions/core
       - name: Check commit messages
