@@ -163,7 +163,7 @@ jobs:
             checkCommitMessages({
               mergedSha: process.env.mergedSha,
               targetSha: process.env.targetSha,
-              path: `${process.env.WORKDIR}/nixpkgs/untrusted`
+              path: `${process.env.WORKDIR}`
             })
         env:
           mergedSha: ${{ inputs.mergedSha }}
