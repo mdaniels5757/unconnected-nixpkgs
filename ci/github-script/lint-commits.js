@@ -33,7 +33,6 @@ async function checkCommitMessages({ mergedSha, targetSha, path }) {
     'git',
     ['-C', path, 'log', '--pretty=format:%H', `${targetSha}..${mergedSha}`],
     {
-      encoding: 'utf8',
       shell: false, // Default, but better safe than sorry here, given the potential consequences.
     },
   )
@@ -43,17 +42,26 @@ async function checkCommitMessages({ mergedSha, targetSha, path }) {
       `An error occurred running "git log ${targetSha}..${mergedSha}".`,
     )
     console.log('Error object: ', JSON.stringify(gitLogProcess.error))
-    console.log('Process stdout: ', gitLogProcess.stdout)
-    console.log('Process stderr: ', gitLogProcess.stderr)
+    console.log('Process stdout: ', gitLogProcess.stdout.toString('utf8'))
+    console.log('Process stderr: ', gitLogProcess.stderr.toString('utf8'))
     core.setFailed('`git log` failed, please see detailed error above.')
     return
   }
 
   console.log(
-    `Ran "git log ${targetSha}..${mergedSha}"; stdout was: ${gitLogProcess.stdout}`,
+    `Ran "git -C ${path} log --pretty=format:%H ${targetSha}..${mergedSha}"; stdout (as utf8) was: ${gitLogProcess.stdout.toString('utf8')}`,
+  ) // FIXME: remove
+
+  console.log(
+    `Ran "git -C ${path} log --pretty=format:%H ${targetSha}..${mergedSha}"; stdout (as ascii) was: ${gitLogProcess.stdout.toString('ascii')}`,
+  ) // FIXME: remove
+
+  console.log(
+    `Ran "git -C ${path} log --pretty=format:%H ${targetSha}..${mergedSha}"; stdout (as hex) was: ${gitLogProcess.stdout.toString('hex')}`,
   ) // FIXME: remove
 
   const commitIds = gitLogProcess.stdout
+    .toString('utf8')
     .split('\n')
     .map((s) => s.replaceAll('\n', ''))
 
