@@ -28,10 +28,9 @@ function printError({ commitId, reason, postReason }) {
 async function checkCommitMessages({ mergedSha, targetSha, path }) {
   const gitLogProcess = spawnSync(
     'git',
-    ['log', '--pretty=format:%H', `${targetSha}..${mergedSha}`],
+    ['-C', path, 'log', '--pretty=format:%H', `${targetSha}..${mergedSha}`],
     {
       encoding: 'utf-8',
-      cwd: path,
       shell: false, // Default, but better safe than sorry here, given the potential consequences.
     },
   )
