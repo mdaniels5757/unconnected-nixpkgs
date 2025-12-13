@@ -42,7 +42,8 @@ async function checkCommitMessages({ mergedSha, targetSha, path }) {
     console.log('Error object: ', JSON.stringify(gitLogProcess.error))
     console.log('Process stdout: ', gitLogProcess.stdout)
     console.log('Process stderr: ', gitLogProcess.stderr)
-    return 2
+    core.setFailed('`git log` failed, please see detailed error above.')
+    return
   }
 
   const commitIds = gitLogProcess.stdout
