@@ -62,6 +62,13 @@ async function checkCommitMessages({ mergedSha, targetSha, path }) {
     JSON.stringify(commitIds),
   ) // FIXME: remove
 
+  const gitLogTestResults = await git.log({
+    fs,
+    dir: path,
+    depth: 50,
+  })
+  console.log(`Git log test: ${JSON.stringify(gitLogTestResults, null, 2)}`) // FIXME: remove this and above var
+
   let failed = false
   for (const commitId of commitIds) {
     let commitFailed = false
