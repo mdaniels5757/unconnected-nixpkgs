@@ -33,7 +33,7 @@ async function checkCommitMessages({ mergedSha, targetSha, path }) {
     'git',
     ['-C', path, 'log', '--pretty=format:%H', `${targetSha}..${mergedSha}`],
     {
-      encoding: 'utf-8',
+      encoding: 'utf8',
       shell: false, // Default, but better safe than sorry here, given the potential consequences.
     },
   )
@@ -50,8 +50,7 @@ async function checkCommitMessages({ mergedSha, targetSha, path }) {
   }
 
   console.log(
-    'Ran "git log ${targetSha}..${mergedSha}"; stdout was ',
-    gitLogProcess.stdout,
+    `Ran "git log ${targetSha}..${mergedSha}"; stdout was: ${gitLogProcess.stdout}`,
   ) // FIXME: remove
 
   const commitIds = gitLogProcess.stdout
