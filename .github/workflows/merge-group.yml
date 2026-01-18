@@ -85,6 +85,8 @@ jobs:
     permissions:
       # compare
       statuses: write
+      # wrong branch review comment
+      pull-requests: write
     secrets:
       CACHIX_AUTH_TOKEN_GHA: ${{ secrets.CACHIX_AUTH_TOKEN_GHA }}
     with:

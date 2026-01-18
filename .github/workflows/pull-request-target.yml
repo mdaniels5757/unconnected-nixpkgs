@@ -82,6 +82,8 @@ jobs:
     permissions:
       # compare
       statuses: write
+      # wrong branch review comment
+      pull-requests: write
     with:
       artifact-prefix: ${{ inputs.artifact-prefix }}
       mergedSha: ${{ needs.prepare.outputs.mergedSha }}
