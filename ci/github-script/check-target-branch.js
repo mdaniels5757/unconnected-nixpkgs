@@ -6,8 +6,9 @@
 
 const { classify, split } = require('../supportedBranches.js')
 const { readFile } = require('node:fs/promises')
-const { postReview } = require('./reviews.js')
+const { postReview, dismissReviews } = require('./reviews.js')
 
+const reviewKey = 'check-target-branch'
 /**
  * @param {{
  *  github: InstanceType<import('@actions/github/lib/utils').GitHub>,
@@ -78,6 +79,7 @@ async function checkTargetBranch({ github, context, core, dry }) {
       dry,
       body,
       event: 'REQUEST_CHANGES',
+      reviewKey,
     })
 
     throw new Error('This PR is against the wrong branch.')
@@ -105,6 +107,7 @@ async function checkTargetBranch({ github, context, core, dry }) {
       dry,
       body,
       event: 'REQUEST_CHANGES',
+      reviewKey,
     })
 
     throw new Error('This PR is against the wrong branch.')
@@ -125,10 +128,18 @@ async function checkTargetBranch({ github, context, core, dry }) {
       dry,
       body,
       event: 'COMMENT',
+      reviewKey,
     })
   } else {
-    // Any existing reviews were dismissed by commits.js
     core.info('checkTargetBranch: this PR is against an appropriate branch.')
+
+    await dismissReviews({
+      github,
+      context,
+      core,
+      dry,
+      reviewKey,
+    })
   }
 }
 
