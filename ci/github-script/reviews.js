@@ -5,6 +5,12 @@ const eventToState = {
   REQUEST_CHANGES: 'CHANGES_REQUESTED',
 }
 
+const reviewUsers = [
+  'github-actions[bot]',
+  'mdaniels5757-nixpkgs-branch-check[bot]',
+  'mdaniels5757-nixpkgs-commit-check[bot]',
+]
+
 /**
  * @param {{
  *  github: InstanceType<import('@actions/github/lib/utils').GitHub>,
@@ -30,10 +36,10 @@ async function dismissReviews({ github, context, core, dry, reviewKey }) {
       ...context.repo,
       pull_number,
     })
-  ).filter(
-    (review) =>
-      review.user?.login === 'github-actions[bot]' &&
-      review.state !== 'DISMISSED',
+  ).filter((review) =>
+    review.user?.login
+      ? reviewUsers.includes(review.user.login) && review.state !== 'DISMISSED'
+      : false,
   )
   const changesRequestedReviews = reviews.filter(
     (review) => review.state === 'CHANGES_REQUESTED',
@@ -156,10 +162,10 @@ async function postReview({
       ...context.repo,
       pull_number,
     })
-  ).filter(
-    (review) =>
-      review.user?.login === 'github-actions[bot]' &&
-      review.state !== 'DISMISSED',
+  ).filter((review) =>
+    review.user?.login
+      ? reviewUsers.includes(review.user.login) && review.state !== 'DISMISSED'
+      : false,
   )
 
   /** @type {null | typeof reviews[number]} */
