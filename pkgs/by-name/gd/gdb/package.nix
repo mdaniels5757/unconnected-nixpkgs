@@ -46,6 +46,7 @@
     (lib.getLib targetPackages.stdenv.cc.cc)
   ],
   writeScript,
+  versionCheckHook,
 }:
 
 let
@@ -195,6 +196,9 @@ stdenv.mkDerivation (finalAttrs: {
     # Remove Info files already provided by Binutils and other packages.
     rm -v $out/share/info/bfd.info
   '';
+
+  doInstallCheck = true;
+  nativeInstallCheckInputs = [ versionCheckHook ];
 
   passthru = {
     updateScript = writeScript "update-gdb" ''
