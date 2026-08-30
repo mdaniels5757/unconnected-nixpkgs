@@ -4,6 +4,7 @@
 */
 // @ts-nocheck
 
+
 const typeConfig = {
   master: ['development', 'primary'],
   release: ['development', 'primary'],
