@@ -11,8 +11,9 @@
 #
 #     nix-shell --arg nixpkgs ./.
 #
+
 {
-  system ? builtins.currentSystem,
+  system ?  builtins.currentSystem,
   nixpkgs ? (
     # On 26.05 we need a CI-pinned Nixpkgs revision that supports x86_64-darwin.
     # TODO: remove after 26.05 support ends.
